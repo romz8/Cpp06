@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:03:14 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/14 16:15:51 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:47:20 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,4 @@ private:
     static void ConvertDouble(const std::string& input);
     static void ConvertSpecial(const std::string& input);
 };
-
-std::ostream& ConvertOutput(std::ostream& os, std::string* msg);
 

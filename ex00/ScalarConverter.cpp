@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:11:25 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/14 16:27:15 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/14 17:12:31 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ LiteralType ScalarConverter::ParsingType(const std::string& input)
     else if (isDouble(input))
         return (CastDouble);
     else
-        throw ScalarConverter::ConvError("Parsing Error");
+        throw ScalarConverter::ConvError("Parsing Error - Unknown Scalar Type");
 }
 
 
@@ -116,20 +116,28 @@ bool ScalarConverter::isFloat(const std::string& inpt)
     if (iss.fail() || !iss.eof())
         return (false);
     if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min())
-        return (false);
+        throw ScalarConverter::ConvError("Impossible to convert - Float Overflow");
     return (true);
 }
 
 bool ScalarConverter::isDouble(const std::string& input)
 {
     long double value;
+    char *end;
+    if (!input.empty() && input.find('.') == std::string::npos)
+        return (false);
     std::istringstream iss(input);
     iss >> value;
     if (iss.fail() || !iss.eof())
         return (false);
     if (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min())
+        throw ScalarConverter::ConvError("Impossible to convert - Double Overflow");
+    const char *cinput = input.c_str();
+    std::strtod(cinput, &end);
+    if (end == cinput + input.size())
+        return (true);
+    else
         return (false);
-    return (true);
 }
 
 /********** Conversion Function : Static_cast for each LiteralType ************/
@@ -145,9 +153,9 @@ void ScalarConverter::ConvertChar(const std::string& input)
         std::cout << "char: '" << c << "'" << std::endl;
     else
         std::cout << "char: Not Displayable" << std::endl;
-    std::cout << "int: " << static_cast<int>(input[0]) << std::endl;
-    std::cout << "float: " << static_cast<float>(input[0]) << 'f' << std::endl;
-    std::cout << "double: " << static_cast<double>(input[0]) << std::endl;
+    std::cout << "int: " << i << std::endl;
+    std::cout << "float: " << f << 'f' << std::endl;
+    std::cout << "double: " << d << std::endl;
 }
 
 void ScalarConverter::ConvertInt(const std::string& input)
@@ -171,7 +179,6 @@ void ScalarConverter::ConvertInt(const std::string& input)
 
 void ScalarConverter::ConvertFloat(const std::string& inpt)
 {
-    std::cout << "CONVERT A FLOAT \n";
     float f;
     std::string input = inpt;
     input.pop_back();
@@ -197,8 +204,8 @@ void ScalarConverter::ConvertDouble(const std::string& input)
 {
     double d;
     std::istringstream iss(input);
-    iss >> d; 
-    
+    iss >> d;
+
     int i = static_cast<int>(d);
     char c = static_cast<char>(i);
     float f = static_cast<float>(d);
@@ -233,16 +240,3 @@ void ScalarConverter::ConvertSpecial(const std::string& ipt)
 
 ScalarConverter::ConvError::ConvError(const std::string& msg) : std::logic_error(msg) {}
 
-/************************* OutPut overloader ***********************************/
-
-std::ostream& ConvertOutput(std::ostream& os, std::string *msg)
-{
-    if (!msg)
-        return (os);
-    std::cout << "char: " << msg << std::endl;
-    std::cout << "int: " << msg++ << std::endl;
-    std::cout << "float: " << msg++ << std::endl;
-    std::cout << "double: " << msg++ << std::endl;
-    std::cout << "float: " << msg++ << std::endl;
-    return (os);
-}

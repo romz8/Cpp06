@@ -5,16 +5,16 @@
 #                                                     +:+ +:+         +:+      #
 #    By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/13 19:43:18 by romainjober       #+#    #+#              #
-#    Updated: 2024/02/14 16:29:23 by rjobert          ###   ########.fr        #
+#    Created: 2024/02/14 19:29:31 by rjobert           #+#    #+#              #
+#    Updated: 2024/02/14 19:30:09 by rjobert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = c++
-NAME = convert
+NAME = Serializer
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -MMD -I ./ 
-HEADER = ScalarConverter.hpp
-SRC = ScalarConverter.cpp main.cpp
+HEADER = Serializer.hpp
+SRC = Serializer.cpp main.cpp
 OBJS = $(SRC:.cpp=.o)
 DEPS = $(SRC:.cpp=.d)
 RM = rm -rf
@@ -37,4 +37,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: clean fclean all re
-
