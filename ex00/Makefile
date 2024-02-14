@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+         #
+#    By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/13 19:43:18 by romainjober       #+#    #+#              #
-#    Updated: 2024/02/13 19:55:19 by romainjober      ###   ########.fr        #
+#    Updated: 2024/02/14 13:40:39 by rjobert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = c++
 NAME = convert
-FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -MMD -I ./ 
+FLAGS =  -std=c++98 -pedantic -MMD -I ./ #-Wall -Wextra -Werror
 HEADER = ScalarConverter.hpp
 SRC = ScalarConverter.cpp main.cpp
 OBJS = $(SRC:.cpp=.o)

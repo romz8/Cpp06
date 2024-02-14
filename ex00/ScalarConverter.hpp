@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+        */
+/*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:03:14 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/13 19:56:21 by romainjober      ###   ########.fr       */
+/*   Updated: 2024/02/14 16:15:51 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 #include <exception>
 #include <sstream>
 #include <climits>
+#include <iomanip>
+
+enum LiteralType
+{
+    CastChar,
+    CastInt,
+    CastFloat,
+    CastDouble,
+    CastSpecial
+};
 
 class ScalarConverter
 {
@@ -33,9 +43,18 @@ private:
     ScalarConverter& operator=(const ScalarConverter& src);
     ~ScalarConverter();
 
+    static LiteralType ParsingType(const std::string& input);
+
     static bool isInt(const std::string& input);
-    // static bool isFloat(std::string input);
-    // static bool isDouble(std::string input);
-    // static bool isChar(std::string input);
-    // static bool isSpecial(std::string input);
+    static bool isFloat(const std::string& input);
+    static bool isDouble(const std::string& input);
+    
+    static void ConvertChar(const std::string& input);
+    static void ConvertInt(const std::string& input);
+    static void ConvertFloat(const std::string& input);
+    static void ConvertDouble(const std::string& input);
+    static void ConvertSpecial(const std::string& input);
 };
+
+std::ostream& ConvertOutput(std::ostream& os, std::string* msg);
+

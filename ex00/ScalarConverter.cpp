@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+        */
+/*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:11:25 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/13 19:58:31 by romainjober      ###   ########.fr       */
+/*   Updated: 2024/02/14 16:27:15 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,57 @@ ScalarConverter::~ScalarConverter(){}
 
  void ScalarConverter::convert(const std::string& input)
 {
-    
-    if (isInt(input))
+    std::cout << std::fixed << std::setprecision(1);
+    LiteralType casting = ParsingType(input);
+    switch(casting)
     {
-        int i;
-        std::istringstream iss(input);
-        iss >> i;
-        std::cout << "int:" << static_cast<int>(i) << std::endl;
+        case CastChar:
+            ConvertChar(input);
+            break;
+        case CastInt:
+            ConvertInt(input);
+            break;
+        case CastFloat:
+            ConvertFloat(input);
+            break;
+        case CastDouble:
+            ConvertDouble(input);
+            break;
+        case CastSpecial:
+            ConvertSpecial(input);
+            break;
+        default:
+            throw ScalarConverter::ConvError("Impossible to Convert");
     }
-    else
-        throw ScalarConverter::ConvError("Impossible");
 }
 
+/********************** Parsing ********************************/
+
+/*detect Literal at the input level and return its type, to later implement 
+the casting according to its type.
+if one character lenght and not digit -> char
+if special input type -> special
+if only digigt, never . nor f -> inte
+*/
+LiteralType ScalarConverter::ParsingType(const std::string& input)
+{
+    if (input.length() == 1 && !std::isdigit(input[0]))
+        return (CastChar);
+    else if (input == "-inff" || input == "+inff" || input == "-inf" \
+        || input == "+inf" || input == "nan")
+            return (CastSpecial);
+    else if (isInt(input))
+        return (CastInt);
+    else if (isFloat(input))
+        return (CastFloat);
+    else if (isDouble(input))
+        return (CastDouble);
+    else
+        throw ScalarConverter::ConvError("Parsing Error");
+}
+
+
+// to refacto for int, float and double in one function with array and position given type compared
 bool ScalarConverter::isInt(const std::string& input)
 {
     long value;
@@ -54,10 +93,156 @@ bool ScalarConverter::isInt(const std::string& input)
     return (true);
 }
 
+/*
+we check that a number is a flaot : format xxxx.yyyf where x an y are digit. 
+parsing reject if neither f nor . is found.
+special case of parsing the 42.0f : if non-empty and last char is f -> pop it back to parse
+with stringstream.
+then we check if the last numebr is not '.' to avoid number like 42.f (invalid) instead of 42.0f
+beceause the function is const string & and the ParsingType as well, we pass it 
+in a string non-const type
+*/
+bool ScalarConverter::isFloat(const std::string& inpt)
+{
+    std::string input = inpt;
+    double value;
+    if (!input.empty() && (input.back() != 'f' || input.find('.') == std::string::npos))
+        return (false);
+    input.pop_back();
+    if (!input.empty() && input.back() == '.')
+        return (false);
+    std::istringstream iss(input);
+    iss >> value;
+    if (iss.fail() || !iss.eof())
+        return (false);
+    if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min())
+        return (false);
+    return (true);
+}
+
+bool ScalarConverter::isDouble(const std::string& input)
+{
+    long double value;
+    std::istringstream iss(input);
+    iss >> value;
+    if (iss.fail() || !iss.eof())
+        return (false);
+    if (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min())
+        return (false);
+    return (true);
+}
+
+/********** Conversion Function : Static_cast for each LiteralType ************/
+
+void ScalarConverter::ConvertChar(const std::string& input)
+{
+    int i = input[0];
+    char c = static_cast<char>(i);
+    float f = static_cast<float>(i);
+    double d = static_cast<double>(i);
+    
+    if (c > 32 && c < 126 )
+        std::cout << "char: '" << c << "'" << std::endl;
+    else
+        std::cout << "char: Not Displayable" << std::endl;
+    std::cout << "int: " << static_cast<int>(input[0]) << std::endl;
+    std::cout << "float: " << static_cast<float>(input[0]) << 'f' << std::endl;
+    std::cout << "double: " << static_cast<double>(input[0]) << std::endl;
+}
+
+void ScalarConverter::ConvertInt(const std::string& input)
+{
+    int i;
+    std::istringstream iss(input);
+    iss >> i; 
+    
+    char c = static_cast<char>(i);
+    float f = static_cast<float>(i);
+    double d = static_cast<double>(i);
+    
+    if (c > 32 && c < 126)
+        std::cout << "char: '" << c << "'" << std::endl;
+    else
+        std::cout << "char: Not Displayable" << std::endl;
+    std::cout << "int: " << i << std::endl;
+    std::cout << "float: " << f << "f" << std::endl;
+    std::cout << "double: " << d << std::endl;
+}
+
+void ScalarConverter::ConvertFloat(const std::string& inpt)
+{
+    std::cout << "CONVERT A FLOAT \n";
+    float f;
+    std::string input = inpt;
+    input.pop_back();
+    std::istringstream iss(input);
+    iss >> f; 
+    
+    int i = static_cast<int>(f);
+    char c = static_cast<char>(i);
+    double d = static_cast<double>(f);
+    
+    if (c > 32 && c < 126)
+        std::cout << "char: '" << c << "'" << std::endl;
+    else
+        std::cout << "char: Not Displayable" << std::endl;
+    if (f > std::numeric_limits<int>::max() || f < std::numeric_limits<int>::min())
+        std::cout << "int: " << "Impossible (overflow)" << std::endl;
+    else
+        std::cout << "int: " << i << std::endl;
+    std::cout << "float: " << f << "f" << std::endl;
+    std::cout << "double: " << d << std::endl;
+}
+void ScalarConverter::ConvertDouble(const std::string& input)
+{
+    double d;
+    std::istringstream iss(input);
+    iss >> d; 
+    
+    int i = static_cast<int>(d);
+    char c = static_cast<char>(i);
+    float f = static_cast<float>(d);
+    
+    if (c > 32 && c < 126)
+        std::cout << "char: '" << c << "'" << std::endl;
+    else
+        std::cout << "char: Not Displayable" << std::endl;
+    if (d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::min())
+        std::cout << "int: " << "Impossible (overflow)" << std::endl;
+    else
+        std::cout << "int: " << i << std::endl;
+    if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::min())
+        std::cout << "float: " << "Impossible (overflow)" << std::endl;
+    else
+        std::cout << "float: " << f << "f" << std::endl;
+    std::cout << "double: " << d << std::endl;
+}
+void ScalarConverter::ConvertSpecial(const std::string& ipt)
+{
+    std::string input = ipt;
+    if (input == "-inff" ||  input == "+inff" ||  input == "nanf")
+        input.pop_back();
+    std::cout << "char: Impossible" << std::endl;
+    std::cout << "int: Impossible" << std::endl;
+    std::cout << "float: " << input << 'f' << std::endl;
+    std::cout << "double: " << input << std::endl;
+}
+
+
+/************************** Special Handler ************************************/
+
 ScalarConverter::ConvError::ConvError(const std::string& msg) : std::logic_error(msg) {}
 
-// static bool isFloat(std::string input);
-//     static bool isDouble(std::string input);
-//     static bool isChar(std::string input);
-//     static bool isSpecial(std::string input);
+/************************* OutPut overloader ***********************************/
 
+std::ostream& ConvertOutput(std::ostream& os, std::string *msg)
+{
+    if (!msg)
+        return (os);
+    std::cout << "char: " << msg << std::endl;
+    std::cout << "int: " << msg++ << std::endl;
+    std::cout << "float: " << msg++ << std::endl;
+    std::cout << "double: " << msg++ << std::endl;
+    std::cout << "float: " << msg++ << std::endl;
+    return (os);
+}
