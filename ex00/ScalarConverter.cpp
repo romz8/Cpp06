@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:11:25 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/14 17:12:31 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/15 15:58:25 by romainjober      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool ScalarConverter::isFloat(const std::string& inpt)
     iss >> value;
     if (iss.fail() || !iss.eof())
         return (false);
-    if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::min())
+    if (value > std::numeric_limits<float>::max() || value < std::numeric_limits<float>::lowest())
         throw ScalarConverter::ConvError("Impossible to convert - Float Overflow");
     return (true);
 }
@@ -130,7 +130,7 @@ bool ScalarConverter::isDouble(const std::string& input)
     iss >> value;
     if (iss.fail() || !iss.eof())
         return (false);
-    if (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::min())
+    if (value > std::numeric_limits<double>::max() || value < std::numeric_limits<double>::lowest())
         throw ScalarConverter::ConvError("Impossible to convert - Double Overflow");
     const char *cinput = input.c_str();
     std::strtod(cinput, &end);
@@ -193,7 +193,7 @@ void ScalarConverter::ConvertFloat(const std::string& inpt)
         std::cout << "char: '" << c << "'" << std::endl;
     else
         std::cout << "char: Not Displayable" << std::endl;
-    if (f > std::numeric_limits<int>::max() || f < std::numeric_limits<int>::min())
+    if (f > std::numeric_limits<int>::max() || f < std::numeric_limits<int>::lowest())
         std::cout << "int: " << "Impossible (overflow)" << std::endl;
     else
         std::cout << "int: " << i << std::endl;
@@ -214,11 +214,11 @@ void ScalarConverter::ConvertDouble(const std::string& input)
         std::cout << "char: '" << c << "'" << std::endl;
     else
         std::cout << "char: Not Displayable" << std::endl;
-    if (d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::min())
+    if (d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::lowest())
         std::cout << "int: " << "Impossible (overflow)" << std::endl;
     else
         std::cout << "int: " << i << std::endl;
-    if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::min())
+    if (d > std::numeric_limits<float>::max() || d < std::numeric_limits<float>::lowest())
         std::cout << "float: " << "Impossible (overflow)" << std::endl;
     else
         std::cout << "float: " << f << "f" << std::endl;

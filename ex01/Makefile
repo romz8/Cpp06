@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+         #
+#    By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/14 19:29:31 by rjobert           #+#    #+#              #
-#    Updated: 2024/02/14 19:30:09 by rjobert          ###   ########.fr        #
+#    Updated: 2024/02/15 16:17:31 by romainjober      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = c++
 NAME = Serializer
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -MMD -I ./ 
-HEADER = Serializer.hpp
+HEADER = Serializer.hpp Data.h
 SRC = Serializer.cpp main.cpp
 OBJS = $(SRC:.cpp=.o)
 DEPS = $(SRC:.cpp=.d)

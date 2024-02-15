@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
+/*   By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:03:14 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/14 16:47:20 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/15 15:50:08 by romainjober      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef SCALARCONVERTER_HPP
+# define SCALARCONVERTER_HPP
 
 #include <iostream>
 #include <string>
@@ -56,3 +57,4 @@ private:
     static void ConvertSpecial(const std::string& input);
 };
 
+#endif
