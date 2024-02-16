@@ -6,7 +6,7 @@
 /*   By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:11:25 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/15 15:58:25 by romainjober      ###   ########.fr       */
+/*   Updated: 2024/02/16 19:49:42 by romainjober      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ if only digigt, never . nor f -> inte
 */
 LiteralType ScalarConverter::ParsingType(const std::string& input)
 {
-    if (input.length() == 1 && !std::isdigit(input[0]))
+    if (input.length() == 3 && input[0] == '\''&& input[2] == '\'' && !std::isdigit(input[1]))
         return (CastChar);
     else if (input == "-inff" || input == "+inff" || input == "-inf" \
         || input == "+inf" || input == "nan")
@@ -109,8 +109,6 @@ bool ScalarConverter::isFloat(const std::string& inpt)
     if (!input.empty() && (input.back() != 'f' || input.find('.') == std::string::npos))
         return (false);
     input.pop_back();
-    if (!input.empty() && input.back() == '.')
-        return (false);
     std::istringstream iss(input);
     iss >> value;
     if (iss.fail() || !iss.eof())
@@ -144,7 +142,7 @@ bool ScalarConverter::isDouble(const std::string& input)
 
 void ScalarConverter::ConvertChar(const std::string& input)
 {
-    int i = input[0];
+    int i = input[1];
     char c = static_cast<char>(i);
     float f = static_cast<float>(i);
     double d = static_cast<double>(i);
