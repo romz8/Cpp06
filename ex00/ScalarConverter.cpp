@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:11:25 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/20 14:54:09 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/20 15:01:56 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ bool ScalarConverter::isDouble(const std::string& input)
     if (value > DBL_MAX || value < -DBL_MAX)
         throw ScalarConverter::ConvError("Impossible to convert - Double Overflow");
     const char *cinput = input.c_str();
-    std::strtod(cinput, &end);
+    strtod(cinput, &end);
     if (end == cinput + input.size())
         return (true);
     else
