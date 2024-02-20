@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: romainjobert <romainjobert@student.42.f    +#+  +:+       +#+        */
+/*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:03:14 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/15 15:50:08 by romainjober      ###   ########.fr       */
+/*   Updated: 2024/02/20 14:45:23 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCALARCONVERTER_HPP
 # define SCALARCONVERTER_HPP
 
-#include <iostream>
-#include <string>
-#include <exception>
-#include <sstream>
-#include <climits>
-#include <iomanip>
+# include <iostream>
+# include <string>
+# include <exception>
+# include <sstream>
+# include <climits>
+# include <cfloat>
+# include <iomanip>
 
 enum LiteralType
 {
