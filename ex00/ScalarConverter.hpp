@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:03:14 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/20 14:45:23 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/20 15:28:40 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <climits>
 # include <cfloat>
 # include <iomanip>
+# include <cstdlib>
 
 enum LiteralType
 {
