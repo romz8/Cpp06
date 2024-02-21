@@ -6,7 +6,7 @@
 /*   By: rjobert <rjobert@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:11:25 by romainjober       #+#    #+#             */
-/*   Updated: 2024/02/20 15:01:56 by rjobert          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:13:03 by rjobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,10 +191,10 @@ void ScalarConverter::ConvertFloat(const std::string& inpt)
         std::cout << "char: '" << c << "'" << std::endl;
     else
         std::cout << "char: Not Displayable" << std::endl;
-    if (f > INT_MAX || f < INT_MIN)
-        std::cout << "int: " << "Impossible (overflow)" << std::endl;
-    else
+    if (f < INT_MAX && f > INT_MIN)
         std::cout << "int: " << i << std::endl;
+    else
+         std::cout << "int: " << "Impossible (overflow)" << std::endl;
     std::cout << "float: " << f << "f" << std::endl;
     std::cout << "double: " << d << std::endl;
 }
@@ -212,14 +212,14 @@ void ScalarConverter::ConvertDouble(const std::string& input)
         std::cout << "char: '" << c << "'" << std::endl;
     else
         std::cout << "char: Not Displayable" << std::endl;
-    if (d > INT_MAX || d < INT_MIN)
-        std::cout << "int: " << "Impossible (overflow)" << std::endl;
-    else
+    if (d < INT_MAX && d > INT_MIN)
         std::cout << "int: " << i << std::endl;
-    if (d > FLT_MAX || d < -FLT_MAX)
-        std::cout << "float: " << "Impossible (overflow)" << std::endl;
     else
+         std::cout << "int: " << "Impossible (overflow)" << std::endl;
+    if (d < FLT_MAX && d > -FLT_MAX)
         std::cout << "float: " << f << "f" << std::endl;
+    else
+        std::cout << "float: " << "Impossible (overflow)" << std::endl;
     std::cout << "double: " << d << std::endl;
 }
 void ScalarConverter::ConvertSpecial(const std::string& ipt)
